@@ -10,7 +10,7 @@ SCREEN_WIDTH = _screen_rect.width()
 SCREEN_HEIGHT = _screen_rect.height()
 
 # 实时显示窗口名称
-SCREEN_NAME = 'csgo_detect'
+SCREEN_NAME = 'Tanck'
 # 游戏内分辨率大小
 GAME_X, GAME_Y = (1920, 1080)
 # GAME_X, GAME_Y = (SCREEN_WIDTH, SCREEN_HEIGHT)
@@ -24,7 +24,7 @@ RESIZE_X = SCREEN_WIDTH // 4
 RESIZE_Y = SCREEN_HEIGHT // 4
 
 # 模型文件
-WEIGHTS = r'E:\Project\private\DeepLearn\PyTorchLearn\yolov5_6.0\auto_scripts\weights\cf.pt'
+WEIGHTS = r'C:\Users\Administrator\Desktop\yolo\aimcf_yolov5\cf_best.pt'
 
 # 预测转换图片大小
 IMGSZ = (640, 640)
@@ -39,7 +39,7 @@ IOU_THRES = .45
 LINE_THICKNESS = 4
 
 # 是否显示图像
-SHOW_IMG = False
+SHOW_IMG = True
 
 # 是否显示 label
 SHOW_LABEL = False

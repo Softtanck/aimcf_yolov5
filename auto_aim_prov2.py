@@ -96,20 +96,40 @@ def img_init(p1):
                     # 图片绘制
                     label = SHOW_LABEL and names[c] or None
                     annotator.box_label(xyxy, label, color=colors(c, True))
+        # print('往p1发送数据 开始')
+        # print(aims)
+        # print('往p1发送数据 结束')
         p1.send((img0, aims))
 
 
-def img_show(c1, p2):
+def img_show(c1):
     print('进程 img_show 启动 ...')
     show_up = False
     show_tips = True
     signal.signal(signal.SIGINT, lambda x, y: sys.exit(0))
     while True:
         # 展示窗口
+        # print('C1等待数据 ...')
         img0, aims = c1.recv()
-        p2.send(aims)
+        # print('往p2发送数据 开始')
+        # print(aims)
+        # print('往p2发送数据 结束')
         if show_tips:
-            print('传输坐标中 ...')
+            # print('传输坐标中 ...')
+            # print(aims)
+            # listener = pynput.mouse.Listener(on_click=on_click)
+            # listener.start()
+            if isinstance(aims, str):
+                exit('结束 get_bbox 进程中 ...')
+            else:
+                if len(aims):
+                    lock(aims, mouse, GAME_X, GAME_Y, False, None)
+                # if aims and LOCK_MOUSE:
+                #     print()
+                #     p = threading.Thread(target=lock, args=(aims, mouse, GAME_X, GAME_Y),
+                #                          kwargs={'logitech': False, 'model_type': None})
+                #     p.start()
+                #     p.join()
         if SHOW_IMG:
             cv2.namedWindow(SCREEN_NAME, cv2.WINDOW_NORMAL)
             # 重设窗口大小
@@ -128,43 +148,23 @@ def img_show(c1, p2):
                 cv2.destroyAllWindows()
                 p2.send('exit')
                 exit('结束 img_show 进程中 ...')
-        if show_tips:
-            show_tips = False
+        # if show_tips:
+        #     show_tips = False
 
-
-def get_bbox(c2):
-    global LOCK_MOUSE
-    print('进程 get_bbox 启动 ...')
-    # ...or, in a non-blocking fashion:
-    listener = pynput.mouse.Listener(on_click=on_click)
-    listener.start()
-    while True:
-        aims = c2.recv()
-        if isinstance(aims, str):
-            exit('结束 get_bbox 进程中 ...')
-        else:
-            if aims and LOCK_MOUSE:
-                p = threading.Thread(target=lock, args=(aims, mouse, GAME_X, GAME_Y), kwargs={'logitech': True, 'model_type': None})
-                p.start()
-                p.join()
 
 
 if __name__ == '__main__':
     # 父进程创建Queue，并传给各个子进程：
     p1, c1 = Pipe()
-    p2, c2 = Pipe()
-    reader1 = Process(target=get_bbox, args=(c2,))
-    reader2 = Process(target=img_show, args=(c1, p2))
+    print('开始初始化进程')
+    reader2 = Process(target=img_show, args=(c1,))
     writer = Process(target=img_init, args=(p1,))
-    # 启动子进程 reader，读取:
-    reader1.start()
+
     reader2.start()
     # 启动子进程 writer，写入:
     writer.start()
-
-    # 等待 reader 结束:
-    reader1.join()
     reader2.join()
+    # 启动子进程 reader，读取:
     # 等待 writer 结束:
     writer.terminate()
     writer.join()

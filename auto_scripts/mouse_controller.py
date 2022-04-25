@@ -47,5 +47,5 @@ def lock(aims, mouse, x, y, logitech=False, model_type='csgo'):
                 offset_y = y_center - height / 6 - mouse_pos_y
                 offset_x *= coef
                 mouse_xy(offset_x, offset_y)
-    mouse_down()
+    # mouse_down()
     # mouse_up()

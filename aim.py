@@ -172,8 +172,25 @@ if __name__ == "__main__":
 
     print('-------准备进入截图---------')
 
+    # 获取指定位置 MONITOR 大小
+    img0 = sct.grab(MONITOR)
+    img0 = np.array(img0)
+    # 将图片转 BGR
+    img0 = cv2.cvtColor(img0, cv2.COLOR_BGRA2BGR)
+
+    # # 获取指定分辨率
+    # img0 = grab_screen(region=tuple(MONITOR.values()))
+
+    # # 将图片缩小指定大小
+    # img0 = cv2.resize(img0, (SCREEN_WIDTH, SCREEN_HEIGHT))
+
+    # Padded resize
+    img = letterbox(img0, IMGSZ, stride=stride)[0]
+
+
+
+
     fixedSize = 488
-    font = cv2.FONT_HERSHEY_SIMPLEX
     show_up = False
     while True:
         rect = win32gui.GetWindowRect(hwnd)
@@ -200,6 +217,43 @@ if __name__ == "__main__":
             height = new_image.size[1]  # 获取高度
             # new_image = new_image.resize((int(width * 1), int(height * 1)), Image.ANTIALIAS)
             img = np.array(new_image)
+
+            img = torch.from_numpy(img).to(device)
+            img = img.half() if half else img.float()
+
+            # 归一化处理
+            img = img / 255.
+            if len(img.shape) == 3:
+                img = img[None]  # expand for batch dim
+
+            pred = model(img, augment=False, visualize=False)[0]
+            # NMS
+            pred = non_max_suppression(pred, CONF_THRES, IOU_THRES, None, False, max_det=1000)
+            aims = []
+            for i, det in enumerate(pred):
+                s = ''
+                s += '%gx%g ' % img.shape[2:]  # print string
+                gn = torch.tensor(img0.shape)[[1, 0, 1, 0]]  # normalization gain whwh
+                # 设置方框绘制
+                annotator = Annotator(img0, line_width=LINE_THICKNESS, example=str(names))
+                if len(det):
+                    #  Rescale boxes from img_size to im0 size
+                    det[:, :4] = scale_coords(img.shape[2:], det[:, :4], img0.shape).round()
+
+                    # Write results
+                    for *xyxy, conf, cls in reversed(det):
+                        # 获取类别索引
+                        c = int(cls)  # integer class
+                        # bbox 中的坐标
+                        xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh
+                        # 图片绘制
+                        label = SHOW_LABEL and names[c] or None
+                        line = (c, *xywh)  # label format
+                        aims.append(line)
+
+                        annotator_t = threading.Thread(target=annotator.box_label, args=(xyxy, label),
+                                                       kwargs={'color': colors(c, True)})
+                        annotator_t.start()
 
             # fps = f'{arr[3]:.2f}'
             # fps = '299'
