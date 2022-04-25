@@ -129,8 +129,10 @@ def change_image_channels(image):
 def get_opt():
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--weights', nargs='+', type=str, default=ROOT / 'runs/train/exp/weights/best.pt', help='model path(s)')
-    parser.add_argument('--source', type=str, default=ROOT / 'data/images/screen.jpg', help='file/dir/URL/glob, 0 for webcam')
+    parser.add_argument('--weights', nargs='+', type=str, default=ROOT / 'runs/train/exp/weights/best.pt',
+                        help='model path(s)')
+    parser.add_argument('--source', type=str, default=ROOT / 'data/images/screen.jpg',
+                        help='file/dir/URL/glob, 0 for webcam')
     parser.add_argument('--imgsz', '--img', '--img-size', nargs='+', type=int, default=[640], help='inference size h,w')
     parser.add_argument('--conf-thres', type=float, default=0.6, help='confidence threshold')
     parser.add_argument('--iou-thres', type=float, default=0.45, help='NMS IoU threshold')
@@ -163,12 +165,22 @@ if __name__ == "__main__":
 
     # Load model
     device = select_device(0)
-    model = attempt_load('runs/train/exp/weights/best.pt', map_location=device)
+    # model = attempt_load('runs/train/exp/weights/best.pt', map_location=device)
+    model = attempt_load('yolov5s.pt', map_location=device)
     opt.device = device
     opt.model = model
 
+    print('-------准备进入截图---------')
+
+    fixedSize = 188
+
     while True:
-        img = screen.grabWindow(hwnd).toImage()
+        rect = win32gui.GetWindowRect(hwnd)
+        w = rect[2] - rect[0]
+        h = rect[3] - rect[1]
+        img = screen.grabWindow(hwnd, x=int(w / 2 - fixedSize / 2), y=int(h / 2 - fixedSize / 2), width=fixedSize,
+                                height=fixedSize).toImage()
+        # img = screen.grabWindow(hwnd).toImage()
 
         size = img.size()
         try:
@@ -185,9 +197,9 @@ if __name__ == "__main__":
 
             width = new_image.size[0]  # 获取宽度
             height = new_image.size[1]  # 获取高度
-            new_image = new_image.resize((int(width * 0.2), int(height * 0.2)), Image.ANTIALIAS)
+            # new_image = new_image.resize((int(width * 1), int(height * 1)), Image.ANTIALIAS)
             img = np.array(new_image)
-            name = 'test'
+            name = 'Tanck'
             cv2.imshow(name, img)
             k = cv2.waitKey(1)  # 1 millisecond
             if k % 256 == 27:
@@ -195,9 +207,11 @@ if __name__ == "__main__":
                 cv2.destroyAllWindows()
                 print("Escape hit, closing...")
                 break
+
             hwnd2 = win32gui.FindWindow(None, name)
             # 窗口需要正常大小且在后台，不能最小化
             win32gui.ShowWindow(hwnd2, win32con.SW_SHOWNORMAL)
+
             win32gui.SetWindowPos(hwnd2, win32con.HWND_TOPMOST, 0, 0, 0, 0,
                                   win32con.SWP_NOMOVE | win32con.SWP_NOACTIVATE | win32con.SWP_NOOWNERZORDER | win32con.SWP_SHOWWINDOW | win32con.SWP_NOSIZE)
 
