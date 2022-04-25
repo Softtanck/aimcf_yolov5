@@ -166,14 +166,15 @@ if __name__ == "__main__":
     # Load model
     device = select_device(0)
     # model = attempt_load('runs/train/exp/weights/best.pt', map_location=device)
-    model = attempt_load('yolov5s.pt', map_location=device)
+    model = attempt_load('cf_best.pt', map_location=device)
     opt.device = device
     opt.model = model
 
     print('-------准备进入截图---------')
 
-    fixedSize = 188
-
+    fixedSize = 488
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    show_up = False
     while True:
         rect = win32gui.GetWindowRect(hwnd)
         w = rect[2] - rect[0]
@@ -199,21 +200,31 @@ if __name__ == "__main__":
             height = new_image.size[1]  # 获取高度
             # new_image = new_image.resize((int(width * 1), int(height * 1)), Image.ANTIALIAS)
             img = np.array(new_image)
+
+            # fps = f'{arr[3]:.2f}'
+            # fps = '299'
+            # cv2.putText(img, fps, (50, 50), font, 1.2, (0, 255, 0), 4 * 2)
+
             name = 'Tanck'
+
+            cv2.namedWindow(name, cv2.WINDOW_NORMAL)
+            # 重设窗口大小
             cv2.imshow(name, img)
+
+            if not show_up:
+                hwnd2 = win32gui.FindWindow(None, name)
+                # 窗口需要正常大小且在后台，不能最小化
+                win32gui.ShowWindow(hwnd2, win32con.SW_SHOWNORMAL)
+                win32gui.SetWindowPos(hwnd2, win32con.HWND_TOPMOST, 0, 0, 0, 0,
+                                      win32con.SWP_NOMOVE | win32con.SWP_NOACTIVATE | win32con.SWP_NOOWNERZORDER | win32con.SWP_SHOWWINDOW | win32con.SWP_NOSIZE)
+                show_up = not show_up
+
             k = cv2.waitKey(1)  # 1 millisecond
             if k % 256 == 27:
                 # ESC pressed
                 cv2.destroyAllWindows()
                 print("Escape hit, closing...")
                 break
-
-            hwnd2 = win32gui.FindWindow(None, name)
-            # 窗口需要正常大小且在后台，不能最小化
-            win32gui.ShowWindow(hwnd2, win32con.SW_SHOWNORMAL)
-
-            win32gui.SetWindowPos(hwnd2, win32con.HWND_TOPMOST, 0, 0, 0, 0,
-                                  win32con.SWP_NOMOVE | win32con.SWP_NOACTIVATE | win32con.SWP_NOOWNERZORDER | win32con.SWP_SHOWWINDOW | win32con.SWP_NOSIZE)
 
         except Exception as e:
             print('Error:', e)
