@@ -1,5 +1,5 @@
-from auto_scripts.mouse.mouse import mouse_xy, mouse_down, mouse_up
-
+# from auto_scripts.mouse.mouse import mouse_xy, mouse_down, mouse_up
+from utils.now.mouse import mouse_xy, mouse_down, mouse_up
 
 def lock(aims, mouse, x, y, logitech=False, model_type='csgo'):
     mouse_pos_x, mouse_pos_y = mouse.position
@@ -18,9 +18,11 @@ def lock(aims, mouse, x, y, logitech=False, model_type='csgo'):
 
     if not logitech:
         if tag == 0 or tag == 2:
-            mouse.position = (x_center, y_center)
+            # mouse.position = (x_center, y_center)
+            mouse_xy(x_center, y_center)
         elif tag == 1 or tag == 3:
-            mouse.position = (x_center, y_center - height / 4)
+            # mouse.position = (x_center, y_center - height / 4)
+            mouse_xy(x_center, y_center - height / 4)
     else:
         if model_type == 'csgo':
             if tag == 0 or tag == 2:

@@ -9,6 +9,8 @@ import pynput
 import torch
 import win32con
 import win32gui
+from pynput.mouse import Button
+from utils.now.mouse import msdkok
 
 from auto_scripts.grabscreen import grab_screen
 from auto_scripts.configs import *
@@ -39,12 +41,13 @@ mouse = pynput.mouse.Controller()
 # 点击监听
 def on_click(x, y, button, pressed):
     global LOCK_MOUSE
-    if pressed and button == button.x2:
+    if pressed and button == Button.right:
         LOCK_MOUSE = not LOCK_MOUSE
         print('LOCK_MOUSE', LOCK_MOUSE)
 
 
 if __name__ == '__main__':
+    print(f'飞易来/文盒驱动加载状态: {msdkok}')
     show_up = False
     show_tips = True
     listener = pynput.mouse.Listener(on_click=on_click)
