@@ -12,7 +12,7 @@ import win32gui
 from pynput.mouse import Button
 from utils.now.mouse import msdkok
 
-from auto_scripts.grabscreen import grab_screen
+from auto_scripts.grabscreen import grab_screen, grab_screen_v2
 from auto_scripts.configs import *
 # 创建一个命名窗口
 from auto_scripts.get_model import load_model_infos
@@ -48,16 +48,34 @@ def on_click(x, y, button, pressed):
 
 if __name__ == '__main__':
     print(f'飞易来/文盒驱动加载状态: {msdkok}')
+
+    hwnd = win32gui.FindWindow(None, '穿越火线')
+    app = QApplication(sys.argv)
+    screen = QApplication.primaryScreen()
+
     show_up = False
     show_tips = True
     listener = pynput.mouse.Listener(on_click=on_click)
     listener.start()
+
+    fixedSize = 488
     while True:
+
+        # rect = win32gui.GetWindowRect(hwnd)
+        # w = rect[2] - rect[0]
+        # h = rect[3] - rect[1]
+        # img0 = screen.grabWindow(hwnd, x=int(w / 2 - fixedSize / 2), y=int(h / 2 - fixedSize / 2), width=fixedSize,
+        #                         height=fixedSize).toImage()
+
         # 获取指定位置
-        img0 = grab_screen(region=tuple(MONITOR.values()))
+        # img0 = grab_screen(region=None)
+        # img0 = grab_screen(region=tuple(MONITOR.values()))
+        # img0 = grab_screen_v2(region=tuple(MONITOR.values()))
+        img0 = grab_screen_v2(region=tuple(MONITOR.values()))
 
         # 将图片缩小指定大小
-        img0 = cv2.resize(img0, (SCREEN_WIDTH, SCREEN_HEIGHT))
+        # img0 = cv2.resize(img0, (fixedSize, fixedSize))
+        # img0 = cv2.resize(img0, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
         # Padded resize
         img = letterbox(img0, IMGSZ, stride=stride)[0]
@@ -124,6 +142,10 @@ if __name__ == '__main__':
                 exit('结束进程中 ...')
 
         if aims and LOCK_MOUSE:
-            t = threading.Thread(target=lock, args=(aims, mouse, GAME_X, GAME_Y), kwargs={'logitech': True})
+            # hwin = win32gui.FindWindow(None, '穿越火线')
+            # rect = win32gui.GetWindowRect(hwin)
+            # w = rect[2] - rect[0]
+            # h = rect[3] - rect[1]
+            t = threading.Thread(target=lock, args=(aims, mouse, GAME_X + RESIZE_X/2, GAME_Y + RESIZE_Y /2), kwargs={'logitech': True})
             t.start()
             t.join()

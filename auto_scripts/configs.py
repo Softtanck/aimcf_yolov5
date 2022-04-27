@@ -12,16 +12,16 @@ SCREEN_HEIGHT = _screen_rect.height()
 # 实时显示窗口名称
 SCREEN_NAME = 'Tanck'
 # 游戏内分辨率大小
-GAME_X, GAME_Y = (1920, 1080)
+GAME_X, GAME_Y = (1928, 1080)
 # GAME_X, GAME_Y = (SCREEN_WIDTH, SCREEN_HEIGHT)
 
-# mss 截图指定区域
-MONITOR = {"top": 0, "left": 0, "width": GAME_X, "height": GAME_Y}
-
-
 # 重设窗口大小
-RESIZE_X = SCREEN_WIDTH // 4
-RESIZE_Y = SCREEN_HEIGHT // 4
+RESIZE_X = 388
+RESIZE_Y = 488
+
+# mss 截图指定区域
+MONITOR = {"top": int(GAME_X / 2 - RESIZE_X / 2), "left": int(GAME_Y / 2 - RESIZE_Y / 2), "width": RESIZE_X,
+           "height": RESIZE_Y}
 
 # 模型文件
 WEIGHTS = r'C:\Users\Administrator\Desktop\yolo\aimcf_yolov5\cf_best.pt'
