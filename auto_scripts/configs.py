@@ -1,5 +1,6 @@
 import sys
 
+import win32gui
 from PyQt5.QtWidgets import QApplication
 
 app = QApplication(sys.argv)
@@ -9,6 +10,10 @@ _screen_rect = _desktop.screenGeometry()
 SCREEN_WIDTH = _screen_rect.width()
 SCREEN_HEIGHT = _screen_rect.height()
 
+hwnd = win32gui.FindWindow(None, '穿越火线')
+rect = win32gui.GetWindowRect(hwnd)
+w = rect[2] - rect[0]
+h = rect[3] - rect[1]
 # 实时显示窗口名称
 SCREEN_NAME = 'Tanck'
 # 游戏内分辨率大小
@@ -19,9 +24,19 @@ GAME_X, GAME_Y = (1928, 1080)
 RESIZE_X = 388
 RESIZE_Y = 488
 
+# 截图范围
+LOCK_WIDTH = 188
+LOCK_HEIGHT = 188
+
+# 截图的左上角坐标
+LOCK_Y = h / 2 - LOCK_HEIGHT / 2 + rect[1]
+LOCK_X = w / 2 - LOCK_WIDTH / 2 + rect[0]
+
+HEAD_OFFSET = 20 #雷神 20 ， AK 15
+
 # mss 截图指定区域
-MONITOR = {"top": int(GAME_X / 2 - RESIZE_X / 2), "left": int(GAME_Y / 2 - RESIZE_Y / 2), "width": RESIZE_X,
-           "height": RESIZE_Y}
+MONITOR = {"top": int(LOCK_X), "left": int(LOCK_Y), "width": LOCK_WIDTH,
+           "height": LOCK_HEIGHT}
 
 # 模型文件
 WEIGHTS = r'C:\Users\Administrator\Desktop\yolo\aimcf_yolov5\cf_best.pt'

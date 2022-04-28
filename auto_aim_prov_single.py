@@ -17,7 +17,7 @@ from auto_scripts.configs import *
 # 创建一个命名窗口
 from auto_scripts.get_model import load_model_infos
 # loadConfig
-from auto_scripts.mouse_controller import lock
+from auto_scripts.mouse_controller import lock, lock_v2
 # 消除警告信息
 from utils.augmentations import letterbox
 from utils.general import non_max_suppression, scale_coords, xyxy2xywh
@@ -146,6 +146,6 @@ if __name__ == '__main__':
             # rect = win32gui.GetWindowRect(hwin)
             # w = rect[2] - rect[0]
             # h = rect[3] - rect[1]
-            t = threading.Thread(target=lock, args=(aims, mouse, GAME_X + RESIZE_X/2, GAME_Y + RESIZE_Y /2), kwargs={'logitech': True})
+            t = threading.Thread(target=lock_v2, args=(aims, mouse, LOCK_X, LOCK_Y), kwargs={'logitech': True})
             t.start()
             t.join()
