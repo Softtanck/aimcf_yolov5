@@ -19,6 +19,7 @@ from auto_scripts.configs import MONITOR, CONF_THRES, IOU_THRES, LINE_THICKNESS,
     RESIZE_X, RESIZE_Y, LOCK_X, LOCK_Y, IMGSZ
 from auto_scripts.get_model import load_model_infos
 from auto_scripts.grabscreen import grab_screen_v2
+from auto_scripts.mouse.mouse import msdkok
 from auto_scripts.mouse_controller import lock_v2
 from utils.augmentations import letterbox
 from utils.general import non_max_suppression, scale_coords, xyxy2xywh
@@ -162,6 +163,7 @@ def get_bbox(c2):
 
 
 if __name__ == '__main__':
+    print(f'飞易来/文盒驱动加载状态: {msdkok}')
     # 父进程创建Queue，并传给各个子进程：
     p1, c1 = Pipe()
     p2, c2 = Pipe()
