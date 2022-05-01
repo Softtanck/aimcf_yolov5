@@ -1,4 +1,5 @@
 import signal
+import sys
 import warnings
 from multiprocessing import Pipe, Process
 
@@ -8,15 +9,17 @@ import numpy as np
 import pynput
 import torch
 import win32con
+import win32gui
 from pynput.mouse import Button
 
-from grabscreen import grab_screen_v2
-from configs import *
 # 创建一个命名窗口
-from get_model import load_model_infos
 # loadConfig
-from mouse_controller import lock_v2
 # 消除警告信息
+from auto_scripts.configs import MONITOR, CONF_THRES, IOU_THRES, LINE_THICKNESS, SHOW_LABEL, SHOW_IMG, SCREEN_NAME, \
+    RESIZE_X, RESIZE_Y, LOCK_X, LOCK_Y, IMGSZ
+from auto_scripts.get_model import load_model_infos
+from auto_scripts.grabscreen import grab_screen_v2
+from auto_scripts.mouse_controller import lock_v2
 from utils.augmentations import letterbox
 from utils.general import non_max_suppression, scale_coords, xyxy2xywh
 from utils.plots import Annotator, colors

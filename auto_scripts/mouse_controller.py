@@ -66,8 +66,8 @@ def lock_v2(aims, mouse, x, y, logitech=False, model_type='csgo'):
     x_center = LOCK_WIDTH * x_center + x
     y_center = LOCK_HEIGHT * y_center + y - HEAD_OFFSET
     # width = x * width
-    height = y * height
-
+    height = LOCK_HEIGHT * height
+    coef = 1
     if not logitech:
         if tag == 0 or tag == 2:
             # mouse.position = (x_center, y_center)
@@ -77,19 +77,18 @@ def lock_v2(aims, mouse, x, y, logitech=False, model_type='csgo'):
             mouse_xy(x_center, y_center - height / 4)
     else:
         if model_type == 'csgo':
-            if tag == 0 or tag == 2:
+            if tag == 0:
                 offset_x = x_center - mouse_pos_x
                 offset_y = y_center - mouse_pos_y
-                offset_x *= 1.3
+                offset_x *= coef
                 mouse_xy(offset_x, offset_y)
 
-            elif tag == 1 or tag == 3:
+            elif tag == 1:
                 offset_x = x_center - mouse_pos_x
                 offset_y = y_center - height / 6 - mouse_pos_y
-                offset_x *= 1.3
+                offset_x *= coef
                 mouse_xy(offset_x, offset_y)
         else:
-            coef = 1
             if tag == 1 or tag == 3:
                 offset_x = x_center - mouse_pos_x
                 offset_y = y_center - mouse_pos_y
