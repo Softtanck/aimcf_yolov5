@@ -1,26 +1,23 @@
-import signal
 import threading
 import warnings
-from multiprocessing import Pipe, Process
 
 import cv2
 import numpy as np
 import pynput
 import torch
 import win32con
-import win32gui
 from pynput.mouse import Button
-from utils.now.mouse import msdkok
 
-from auto_scripts.grabscreen import grab_screen, grab_screen_v2
 from auto_scripts.configs import *
 # 创建一个命名窗口
 from auto_scripts.get_model import load_model_infos
+from auto_scripts.grabscreen import grab_screen_v2
 # loadConfig
-from auto_scripts.mouse_controller import lock, lock_v2
+from auto_scripts.mouse_controller import lock_v2
 # 消除警告信息
 from utils.augmentations import letterbox
 from utils.general import non_max_suppression, scale_coords, xyxy2xywh
+from utils.now.mouse import msdkok
 from utils.plots import Annotator, colors
 
 warnings.filterwarnings('ignore')
@@ -142,10 +139,6 @@ if __name__ == '__main__':
                 exit('结束进程中 ...')
 
         if aims and LOCK_MOUSE:
-            # hwin = win32gui.FindWindow(None, '穿越火线')
-            # rect = win32gui.GetWindowRect(hwin)
-            # w = rect[2] - rect[0]
-            # h = rect[3] - rect[1]
             t = threading.Thread(target=lock_v2, args=(aims, mouse, LOCK_X, LOCK_Y), kwargs={'logitech': True})
             t.start()
             t.join()

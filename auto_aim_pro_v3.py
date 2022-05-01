@@ -19,19 +19,13 @@ from auto_scripts.configs import MONITOR, CONF_THRES, IOU_THRES, LINE_THICKNESS,
     RESIZE_X, RESIZE_Y, LOCK_X, LOCK_Y, IMGSZ
 from auto_scripts.get_model import load_model_infos
 from auto_scripts.grabscreen import grab_screen_v2
-from auto_scripts.mouse.mouse import msdkok
-from auto_scripts.mouse_controller import lock_v2
+from auto_scripts.mouse_controller import lock_v3
 from utils.augmentations import letterbox
 from utils.general import non_max_suppression, scale_coords, xyxy2xywh
 from utils.plots import Annotator, colors
 
 warnings.filterwarnings('ignore')
-# loadModel
-model, device, half = load_model_infos()
 
-# 获取模型其他参
-stride = int(model.stride.max())  # model stride
-names = model.module.names if hasattr(model, 'module') else model.names  # get class names
 
 # 启用 mss 截图
 sct = mss.mss()
@@ -53,6 +47,13 @@ def on_click(x, y, button, pressed):
 
 def img_init(p1):
     print('进程 img_init 启动 ...')
+    # loadModel
+    model, device, half = load_model_infos()
+
+    # 获取模型其他参
+    stride = int(model.stride.max())  # model stride
+    names = model.module.names if hasattr(model, 'module') else model.names  # get class names
+
 
     while True:
         # --- 图像变化 ---
@@ -149,7 +150,8 @@ def img_show(c1, p2):
 def get_bbox(c2):
     global LOCK_MOUSE
     print('进程 get_bbox 启动 ...')
-
+    # print(f'飞易来/文盒驱动加载状态: {msdkok}')
+    # print(f'gmok加载状态: {gmok}')
     # ...or, in a non-blocking fashion:
     listener = pynput.mouse.Listener(on_click=on_click)
     listener.start()
@@ -159,11 +161,10 @@ def get_bbox(c2):
             exit('结束 get_bbox 进程中 ...')
         else:
             if aims and LOCK_MOUSE:
-                lock_v2(aims, mouse, LOCK_X, LOCK_Y, logitech=True)
+                lock_v3(aims, mouse, LOCK_X, LOCK_Y)
 
 
 if __name__ == '__main__':
-    print(f'飞易来/文盒驱动加载状态: {msdkok}')
     # 父进程创建Queue，并传给各个子进程：
     p1, c1 = Pipe()
     p2, c2 = Pipe()
