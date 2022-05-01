@@ -10,8 +10,7 @@ _screen_rect = _desktop.screenGeometry()
 SCREEN_WIDTH = _screen_rect.width()
 SCREEN_HEIGHT = _screen_rect.height()
 
-# hwnd = win32gui.FindWindow(None, '穿越火线')
-hwnd = win32gui.FindWindow(None, 'PyCharm')
+hwnd = win32gui.FindWindow(None, '穿越火线')
 rect = win32gui.GetWindowRect(hwnd)
 w = rect[2] - rect[0]
 h = rect[3] - rect[1]
