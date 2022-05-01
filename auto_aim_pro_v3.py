@@ -19,7 +19,7 @@ from auto_scripts.configs import MONITOR, CONF_THRES, IOU_THRES, LINE_THICKNESS,
     RESIZE_X, RESIZE_Y, LOCK_X, LOCK_Y, IMGSZ
 from auto_scripts.get_model import load_model_infos
 from auto_scripts.grabscreen import grab_screen_v2
-from auto_scripts.mouse_controller import lock_v3
+from auto_scripts.mouse_controller_v2 import lock_v3
 from utils.augmentations import letterbox
 from utils.general import non_max_suppression, scale_coords, xyxy2xywh
 from utils.plots import Annotator, colors
