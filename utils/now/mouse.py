@@ -16,6 +16,8 @@ M_Open.argtypes = [c_int]
 M_Open.restype = c_int64
 msdk_hdl = M_Open(1)
 msdkok = 1 if msdk_hdl else 0
+if (msdkok):
+    print('鼠标驱动加载成功')
 
 if msdkok:
     M_LeftDown = msdk.M_LeftDown
