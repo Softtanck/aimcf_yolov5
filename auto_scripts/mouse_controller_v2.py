@@ -28,6 +28,6 @@ def lock_v3(aims, mouse, x, y):
         mouse_xy(offset_x, offset_y)
     elif tag == 1:
         offset_x = x_center - mouse_pos_x
-        offset_y = y_center - height / 6 - mouse_pos_y
+        offset_y = y_center - height / 4 - mouse_pos_y
         offset_x *= coef
         mouse_xy(offset_x, offset_y)

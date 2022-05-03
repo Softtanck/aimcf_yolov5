@@ -46,7 +46,7 @@ WEIGHTS = r'C:\Users\Administrator\Desktop\yolo\aimcf_yolov5\best.pt'
 IMGSZ = (640, 640)
 
 # 置信度
-CONF_THRES = .42
+CONF_THRES = .65
 
 # IOU
 IOU_THRES = .45
