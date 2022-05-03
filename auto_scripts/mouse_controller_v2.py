@@ -23,9 +23,9 @@ def lock_v3(aims, mouse, x, y):
     #     mouse_xy(offset_x, offset_y)
     if tag == 0:
         offset_x = x_center - mouse_pos_x
-        if (height <= 40):
+        if (height <= 40): #判断框的高度是否小于40，小于40证明可能是头，不需要Y方向向上偏移
             offset_y = y_center - mouse_pos_y
-        else:
+        else: #大于40可能是全身，往上偏移一半的一半
             offset_y = y_center - mouse_pos_y - height / 4
         offset_x *= coef
         mouse_xy(offset_x, offset_y)
