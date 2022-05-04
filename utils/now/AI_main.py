@@ -1,27 +1,27 @@
-from util import set_dpi, is_full_screen, is_admin, clear, restart, millisleep, get_window_info, FOV, use_choice, move_mouse
-from mouse import mouse_down, mouse_up, mouse_close, scroll, key_down, key_up, gmok, msdkok
-from win32api import GetAsyncKeyState, GetCurrentProcessId, OpenProcess, GetSystemMetrics
-from win32process import SetPriorityClass, ABOVE_NORMAL_PRIORITY_CLASS
-from multiprocessing import Process, shared_memory, Array, Lock
-from win32con import VK_END, PROCESS_ALL_ACCESS
-from darknet_yolo34 import FrameDetection34
-from pynput.mouse import Listener, Button
-from torch_yolox import FrameDetectionX
-from scrnshot import WindowCapture
-from sys import exit, platform
+import os
 from collections import deque
-from statistics import median
-from time import time, sleep
-from math import sqrt, pow
-from simple_pid import PID
-from random import uniform
 from ctypes import windll
+from math import pow
+from multiprocessing import Process, shared_memory, Array, Lock
+from statistics import median
+from sys import exit, platform
+from time import time
+
+import cv2
 import numpy as np
 import pywintypes
 import win32gui
-import bezier
-import cv2
-import os
+from pynput.mouse import Listener, Button
+from simple_pid import PID
+from win32api import GetAsyncKeyState, GetCurrentProcessId, OpenProcess, GetSystemMetrics
+from win32con import VK_END, PROCESS_ALL_ACCESS
+from win32process import SetPriorityClass, ABOVE_NORMAL_PRIORITY_CLASS
+
+from darknet_yolo34 import FrameDetection34
+from mouse import mouse_down, mouse_up, mouse_close, gmok, msdkok
+from scrnshot import WindowCapture
+from torch_yolox import FrameDetectionX
+from util import set_dpi, is_full_screen, is_admin, restart, millisleep, get_window_info, FOV, use_choice, move_mouse
 
 
 # 检测是否存在配置与权重文件

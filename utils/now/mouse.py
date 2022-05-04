@@ -15,9 +15,15 @@ M_Open = msdk.M_Open
 M_Open.argtypes = [c_int]
 M_Open.restype = c_int64
 msdk_hdl = M_Open(1)
+
+
 msdkok = 1 if msdk_hdl else 0
 if (msdkok):
     print('鼠标驱动加载成功')
+    M_SetParam = msdk.M_SetParam
+    M_SetParam.restype = c_int
+    M_SetParam.argtypes = [c_int64, c_int, c_int, c_int]
+    M_SetParam(msdk_hdl, 20, 0, 1)
 
 if msdkok:
     M_LeftDown = msdk.M_LeftDown
@@ -36,7 +42,7 @@ if msdkok:
     M_RightUp.restype = c_int
     M_RightUp.argtypes = [c_int64]
 
-    M_MoveR = msdk.M_MoveR
+    M_MoveR = msdk.M_MoveR2
     M_MoveR.restype = c_int
     M_MoveR.argtypes = [c_int64, c_int, c_int]
 
