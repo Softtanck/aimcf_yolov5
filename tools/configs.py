@@ -25,7 +25,7 @@ RESIZE_X = 150
 RESIZE_Y = 100
 
 # 模型文件
-WEIGHTS = 'weights/cf.pt'
+WEIGHTS = 'C:\\Users\\Administrator\\Desktop\\yolo\\aimcf_yolov5\\best.pt'
 
 # 检测源
 SOURCE = 'rtmp://localhost:1935/live/demo'
@@ -37,7 +37,7 @@ IMGSZ = [640, 640]  # 默认
 CONF_THRES = .4  # 大于该置信度的目标才会被显示
 
 # IOU
-IOU_THRES = .45
+IOU_THRES = .65
 
 # 方框线条粗细
 LINE_THICKNESS = 4

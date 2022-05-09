@@ -11,7 +11,6 @@ from pynput.mouse import Button, Listener
 from win32api import GetAsyncKeyState
 
 from tools.grabscreen import grab_screen
-from tools.mouse import mouse_xy, gmok, msdkok
 # 预加载为睡眠函数做准备
 from tools.scrnshot import WindowCapture
 
@@ -40,6 +39,7 @@ def millisleep(num):
 
 # 移动鼠标
 def move_mouse(a, b):
+    from tools.mouse.mouse_v2 import mouse_xy
     mouse_xy(round(a), round(b))
 
 

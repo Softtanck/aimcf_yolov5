@@ -1,15 +1,12 @@
-import time
-
 from tools import FOV, move_mouse
-from tools.configs import SHOT_SPEED, MONITOR, DPI
-from tools.mouse import mouse_down, mouse_up
+from tools.configs import DPI
 
 
 # 一次点击
-def mouse_click_onece(t: float):
-    mouse_down()
-    time.sleep(t)
-    mouse_up()
+# def mouse_click_onece(t: float):
+#     mouse_down()
+#     time.sleep(t)
+#     mouse_up()
 
 
 # 驱动实现自瞄
@@ -44,14 +41,15 @@ def mouse_lock_def(aims, mouse, LOCK_PRESS, C, pids, move_factor, arr, left, top
                 best_xy = ((tag, x, y, h), dist)
     tag, x, y, h = best_xy[0]
 
-    if tag == 1 or tag == 3:  # cf
+
+    if tag == 0:  # cf
         move_x = x - mouse_pos_x
-        move_y = y - mouse_pos_y
+        move_y = y - mouse_pos_y + h + h / 6
         # mouse_xy(offset_x, offset_y)
         # mouse_click_onece(0.05)
     else:
         move_x = x - mouse_pos_x
-        move_y = y - h * 2 / 5 - mouse_pos_y
+        move_y = y - mouse_pos_y - h / 4
         # mouse_xy(offset_x, offset_y)
         # mouse_click_onece(0.05)
 
@@ -63,12 +61,13 @@ def mouse_lock_def(aims, mouse, LOCK_PRESS, C, pids, move_factor, arr, left, top
         move_x = - pid_x(move_x)
         move_y = - pid_y(move_y)
 
+        # print(f'move:{move_x}, {move_y}')
         move_mouse(move_x, move_y)
-        if LOCK_PRESS and C < 42:
-            move_mouse(0, 1)
-            time.sleep(.009)
-
-            C += 1
+        # if LOCK_PRESS and C < 42:
+        #     move_mouse(0, 1)
+        #     time.sleep(.009)
+        #
+        #     C += 1
 
         # # 下面的是到达一定范围内，不需要直接注释掉即可 可以自动开枪
         # if time.time() * 1000 - arr[0] > SHOT_SPEED and (move_x ** 2 + move_y ** 2) ** .5 <= 1:

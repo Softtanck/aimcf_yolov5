@@ -155,18 +155,18 @@ def get_bbox(c2, arr):
     # 鼠标点击监听
     def on_click(x, y, button, pressed):
         global LOCK_MOUSE, LOCK_PRESS, C
-        if pressed and button == getattr(button, AIM_BUTTON):
+        if pressed and button == Button.right: #getattr(button, AIM_BUTTON):
             LOCK_MOUSE = not LOCK_MOUSE
             print('LOCK_MOUSE', LOCK_MOUSE)
-        if button == Button.left:
-            if pressed:
-                change_withlock(arr, 0, time() * 1000, process_lock)  # 更新左键按下时间
-                LOCK_PRESS = True
-            else:
-                change_withlock(arr, 1, time() * 1000, process_lock)  # 更新左键抬起时间
-                LOCK_PRESS = False
-                move_mouse(0, -C)
-                C = 0
+        # if button == Button.left:
+        #     if pressed:
+        #         change_withlock(arr, 0, time() * 1000, process_lock)  # 更新左键按下时间
+        #         LOCK_PRESS = True
+        #     else:
+        #         change_withlock(arr, 1, time() * 1000, process_lock)  # 更新左键抬起时间
+        #         LOCK_PRESS = False
+        #         move_mouse(0, -C)
+        #         C = 0
 
     # 监听鼠标事件
     listener = pynput.mouse.Listener(on_click=on_click)
@@ -187,7 +187,7 @@ def get_bbox(c2, arr):
     #     'LaunchCombatUWindowsClient': 1.319,  # 10.0
     #     'LaunchUnrealUWindowsClient': 0.500,  # 20
     # }.get(WINDOW_CLASS_NAME, 1)
-    move_factor = 0.971  # 鼠标速度 40
+    move_factor = 5  # 鼠标速度 40
     while True:
         aims = c2.recv()
         # 花费时间
@@ -228,8 +228,9 @@ if __name__ == '__main__':
     set_dpi()  # 设置高DPI不受影响
     os.chdir(os.path.dirname(os.path.abspath(__file__)))  # 设置工作路径
     check_file(WEIGHTS)  # 如果文件不存在则退出
-    print(f'罗技驱动加载状态: {gmok}')
-    print(f'飞易来/文盒驱动加载状态: {msdkok}')
+    print(f'开始初始化')
+    # print(f'罗技驱动加载状态: {gmok}')
+    # print(f'飞易来/文盒驱动加载状态: {msdkok}')
 
     # 提升进程优先级
     if platform == 'win32':
