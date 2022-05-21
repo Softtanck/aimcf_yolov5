@@ -21,8 +21,8 @@ SCREEN_NAME = 'csgo_detect'
 MONITOR = {"left": 810, "top": 440, "width": 300, "height": 200}
 
 # 重设窗口大小
-RESIZE_X = 150
-RESIZE_Y = 100
+RESIZE_X = 188
+RESIZE_Y = 188
 
 # 模型文件
 WEIGHTS = 'C:\\Users\\Administrator\\Desktop\\yolo\\aimcf_yolov5\\best.pt'
@@ -34,7 +34,7 @@ SOURCE = 'rtmp://localhost:1935/live/demo'
 IMGSZ = [640, 640]  # 默认
 
 # 置信度
-CONF_THRES = .4  # 大于该置信度的目标才会被显示
+CONF_THRES = .65  # 大于该置信度的目标才会被显示
 
 # IOU
 IOU_THRES = .65

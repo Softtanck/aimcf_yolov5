@@ -187,7 +187,7 @@ def get_bbox(c2, arr):
     #     'LaunchCombatUWindowsClient': 1.319,  # 10.0
     #     'LaunchUnrealUWindowsClient': 0.500,  # 20
     # }.get(WINDOW_CLASS_NAME, 1)
-    move_factor = 5  # 鼠标速度 40
+    move_factor = 5.8  # 鼠标速度 40
     while True:
         aims = c2.recv()
         # 花费时间
